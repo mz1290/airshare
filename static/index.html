@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Share</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Air Share</h1>
+        <form action="/share" method="post">
+            <button type="submit">Save</button>
+            <textarea name="content" rows="20" cols="70">{{.Content}}</textarea><br>
+        </form>
+    </div>  
+</body>
+</html>
