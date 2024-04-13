@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-	"net"
 	"net/http"
 	"sync"
 	"text/template"
@@ -52,10 +51,9 @@ func main() {
 		}
 	})
 
-	port := 8080
-	serverSocket := fmt.Sprintf("%s:%d", hostIP(), port)
-	log.Printf("Server started at http://%s/share", serverSocket)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	port := 8080 // TODO: make a CLI arg
+	log.Printf("Server started and listening on port %d", port)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
 }
 
 func serveWebPage(tmpl *template.Template, w http.ResponseWriter,
@@ -79,16 +77,4 @@ func saveContent(w http.ResponseWriter, r *http.Request, content *Content) {
 
 	// redirect to a new URL to prevent form resubmission issues
 	http.Redirect(w, r, "/share", http.StatusSeeOther)
-}
-
-func hostIP() string {
-	conn, err := net.Dial("udp", "8.8.8.8:80")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer conn.Close()
-
-	hostLocalIP := conn.LocalAddr().(*net.UDPAddr)
-
-	return hostLocalIP.IP.String()
 }
